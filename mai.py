@@ -19,16 +19,13 @@ def getPrediction(filename):
     img_path = 'static/images/'+filename
     img = np.asarray(Image.open(img_path).resize((SIZE,SIZE)))
     
-    img = img/255.      #Scale pixel values
+    img = img/255. #Scale pixel values
     
-    img = np.expand_dims(img, axis=0)  #Get it tready as input to the network       
+    img = np.expand_dims(img, axis=0)     
     
-    pred = my_model.predict(img) #Predict                    
+    pred = my_model.predict(img)                  
     
     #Convert prediction to class name
     pred_class = le.inverse_transform([np.argmax(pred)])[0]
     print("Diagnosis is:", pred_class)
     return pred_class
-
-
-#test_prediction =getPrediction('example.jpg')
