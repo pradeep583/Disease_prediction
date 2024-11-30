@@ -1,1 +1,1 @@
-# Disease_prediction
+# Corn Disease Prediction
