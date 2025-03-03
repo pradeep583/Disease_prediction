@@ -1,8 +1,10 @@
 # Corn Disease Prediction
 
-live demo
+# Live Demo
 
-https://github.com/user-attachments/assets/402a3d54-3642-4d1e-a134-d515ff7149f4
+
+
+https://github.com/user-attachments/assets/0295cf95-2fce-43e4-9b0e-3f361a3db253
 
 
 
