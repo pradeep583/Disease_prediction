@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, flash
+from flask import Flask, render_template, request, redirect
 from werkzeug.utils import secure_filename
 from main import getPrediction
 import os
@@ -13,7 +13,7 @@ app.secret_key = "secret key"
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 @app.route('/')
 def index():
-    return render_template('a.html')
+    return render_template('client.html')
 
 #Add Post method to the decorator to allow for form submission. 
 @app.route('/', methods=['POST'])
