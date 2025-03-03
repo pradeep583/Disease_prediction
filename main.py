@@ -1,5 +1,6 @@
 import numpy as np
 import tensorflow
+# import pillow for image processing
 from PIL import Image
 from sklearn.preprocessing import LabelEncoder
 from keras.models import load_model 
@@ -14,7 +15,7 @@ def getPrediction(filename):
     
     
     #Load model
-    my_model=load_model(r"D:\ML\model\my_model.h5")
+    my_model=load_model(r"<File location of the model>")
     
     SIZE = 128 #Resize to same size as training images
     img_path = 'static/images/'+filename
