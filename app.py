@@ -1,18 +1,15 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, flash
 from werkzeug.utils import secure_filename
 from main import getPrediction
-
-from flask import flash
 import os
 
-#Save images to the 'static' folder as Flask serves images from this directory
 UPLOAD_FOLDER = 'static'
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)  
 
-#Create an app object using the Flask class. 
 app = Flask(__name__, static_folder="static")
 app.secret_key = "secret key"
-#Define the upload folder to save images uploaded by the user. 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
 @app.route('/')
 def index():
     return render_template('client.html')
