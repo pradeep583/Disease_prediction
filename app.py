@@ -1,10 +1,12 @@
 from flask import Flask, render_template, request, redirect
 from werkzeug.utils import secure_filename
 from main import getPrediction
+
+from flask import flash
 import os
 
 #Save images to the 'static' folder as Flask serves images from this directory
-UPLOAD_FOLDER = 'static/images/'
+UPLOAD_FOLDER = 'static'
 
 #Create an app object using the Flask class. 
 app = Flask(__name__, static_folder="static")
