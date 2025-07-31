@@ -4,7 +4,7 @@ from main import getPrediction
 import os
 
 UPLOAD_FOLDER = 'static'
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)  
+ 
 
 app = Flask(__name__, static_folder="static")
 app.secret_key = "secret key"
