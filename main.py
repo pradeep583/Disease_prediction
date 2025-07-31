@@ -1,12 +1,23 @@
 import numpy as np
-# import pillow for image processing
-
 from PIL import Image
 from sklearn.preprocessing import LabelEncoder
-from keras.models import load_model 
+import tensorflow as tf
 import os
 
-my_model = load_model("model/my_model.h5") 
+model = tf.keras.models.load_model('model/my_model.h5')
+
+converter = tf.lite.TFLiteConverter.from_keras_model(model)
+tflite_model = converter.convert()
+
+
+with open('model/model.tflite', 'wb') as f:
+    f.write(tflite_model)
+
+interpreter = tf.lite.Interpreter(model_path="model/model.tflite")
+interpreter.allocate_tensors()
+
+input_details = interpreter.get_input_details()
+output_details = interpreter.get_output_details()
 
 classes = [
     "Blight - Recommended: Bavistin + Captan (1:1 ratio, 2g/kg seed treatment)",
@@ -15,26 +26,21 @@ classes = [
     "Healthy - No treatment required"
 ]
 
-
 le = LabelEncoder()
 le.fit(classes)
-le.inverse_transform([2])
 
 def getPrediction(filename):
     SIZE = 128 
     img_path = os.path.join("static", filename)
+    img = Image.open(img_path).resize((SIZE, SIZE))
+    img = np.asarray(img, dtype=np.float32) / 255.0
+    img = np.expand_dims(img, axis=0)
 
-    try:
-        img = Image.open(img_path).convert("RGB").resize((SIZE, SIZE))
-        img = np.asarray(img) / 255.0
-        img = np.expand_dims(img, axis=0)
+    # Set input and run inference
+    interpreter.set_tensor(input_details[0]['index'], img)
+    interpreter.invoke()
 
-        pred = my_model.predict(img)
-        predicted_index = np.argmax(pred)
-        pred_class = le.inverse_transform([predicted_index])[0]
-        return pred_class
-
-    except Exception as e:
-        return f"Error in prediction: {str(e)}"
-
-
+    # Get predictions
+    output_data = interpreter.get_tensor(output_details[0]['index'])
+    predicted_index = np.argmax(output_data)
+    return le.inverse_transform([predicted_index])[0]
