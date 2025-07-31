@@ -26,12 +26,19 @@ def submit_file():
             flash('No file selected for uploading')
             return redirect(request.url)
         if file:
-            filename = secure_filename(file.filename)  #Use this werkzeug method to secure filename. 
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
+            filename = secure_filename(file.filename)
+            os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+
+            # Save the uploaded image
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(file_path)
+
+    
             label = getPrediction(filename)
+
             flash(label)
-            full_filename = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            flash(full_filename)
+            flash(file_path)
+
             return redirect('/')
 
 
