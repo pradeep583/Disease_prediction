@@ -2,58 +2,88 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Corn Disease Diagnosis</title>
+  <title>Corn Leaf Disease Detector</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      background-color: #f7f7f7;
-      font-family: Arial, sans-serif;
-      color: #222;
       margin: 0;
-      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f5faff;
+      color: #222;
     }
 
     .container {
       max-width: 600px;
-      margin: 40px auto;
-      padding: 20px;
-      background-color: #fff;
-      border: 1px solid #ddd;
+      margin: 60px auto;
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
     }
 
-    h2, h4 {
+    h2 {
       text-align: center;
+      color: #007acc;
+      margin-bottom: 10px;
+    }
+
+    h4 {
+      text-align: center;
+      color: #444;
+      font-weight: normal;
     }
 
     form {
+      margin-top: 30px;
       text-align: center;
-      margin-top: 20px;
     }
 
     input[type="file"] {
-      margin-top: 10px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 15px;
     }
 
     input[type="submit"] {
-      margin-top: 15px;
-      padding: 8px 16px;
-      background-color: #2a9df4;
-      color: #fff;
+      padding: 10px 20px;
+      background-color: #007acc;
+      color: white;
       border: none;
+      border-radius: 8px;
       cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.2s ease-in-out;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #005f99;
     }
 
     .diagnosis-section {
       margin-top: 30px;
-      padding: 10px;
-      background-color: #eef;
-      border: 1px solid #ccd;
+      background-color: #e9f5ff;
+      border-left: 6px solid #007acc;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    .diagnosis-section h3 {
+      margin-top: 0;
+      color: #005080;
     }
 
     .diagnosis-image {
       display: block;
-      margin: 10px auto;
+      margin: 20px auto 10px;
       max-width: 300px;
-      height: auto;
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid #ccc;
     }
 
     .footer {
@@ -62,24 +92,33 @@
       font-size: 13px;
       color: #999;
     }
+
+    .note {
+      font-size: 13px;
+      color: #777;
+      margin-top: 10px;
+      text-align: center;
+    }
+
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>Corn Disease Prediction</h2>
-    <h4>Select a corn leaf image to diagnose</h4>
+    <h2>Corn Leaf Disease Detector</h2>
+    <h4>Upload a image of the corn leaf</h4>
 
-    <form method="post" action="/" enctype="multipart/form-data">
-      <input type="file" name="file" required><br>
-      <input type="submit" value="Submit">
+    <form method="POST" enctype="multipart/form-data">
+      <input type="file" name="file" accept=".jpg,.jpeg,.png" required><br>
+      <input type="submit" value="Predict Disease">
+      <div class="note">Accepted formats: .jpg, .jpeg, .png</div>
     </form>
 
-    {% if prediction %}
-      <div class="diagnosis-section">
-        <h3>Diagnosis & Recommendation</h3>
-        <p>{{ prediction }}</p>
-        <img src="{{ image }}" alt="Uploaded Image" class="diagnosis-image">
-      </div>
+    {% if prediction and image %}
+    <div class="diagnosis-section">
+      <h3>Prediction & Treatment Advice</h3>
+      <p><strong>{{ prediction }}</strong></p>
+      <img src="{{ image }}" alt="Uploaded Image" class="diagnosis-image">
+    </div>
     {% endif %}
   </div>
 </body>
