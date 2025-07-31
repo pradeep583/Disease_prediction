@@ -1,13 +1,27 @@
-from flask import Flask, render_template, request, redirect, flash, after_this_request
+from flask import Flask, render_template, request, redirect, flash
 from werkzeug.utils import secure_filename
 from main import getPrediction
 import os
 
 UPLOAD_FOLDER = 'static'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 app = Flask(__name__)
-app.secret_key = "secret key"
+app.secret_key = 'secret key'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+def cleanup_static_folder():
+    for filename in os.listdir(UPLOAD_FOLDER):
+        file_path = os.path.join(UPLOAD_FOLDER, filename)
+        try:
+            if os.path.isfile(file_path):
+                os.remove(file_path)
+        except Exception as e:
+            print(f"Warning: Failed to delete {file_path} — {e}")
 
 @app.route('/')
 def index():
@@ -20,31 +34,29 @@ def submit_file():
         return redirect(request.url)
 
     file = request.files['file']
+
     if file.filename == '':
         flash('No file selected for uploading')
         return redirect(request.url)
 
-    if file:
-        filename = secure_filename(file.filename)
-        os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+    if file and allowed_file(file.filename):
+        # Delete any existing file in static/
+        cleanup_static_folder()
 
+        # Save new file
+        filename = secure_filename(file.filename)
         file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
         file.save(file_path)
 
         label = getPrediction(filename)
 
-        @after_this_request
-        def remove_file(response):
-            try:
-                os.remove(file_path)
-            except Exception as e:
-                app.logger.error("Error deleting file: %s", e)
-            return response
-
+        # Pass prediction and image to template
         return render_template('client.html', prediction=label, image=file_path)
 
-    flash('Allowed file types are png, jpg, jpeg')
-    return redirect(request.url)
+    else:
+        flash('Allowed file types are png, jpg, jpeg')
+        return redirect(request.url)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     app.run()
