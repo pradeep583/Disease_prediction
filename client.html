@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Corn Disease Diagnosis</title>
+  <style>
+    body {
+      background-color: #f7f7f7;
+      font-family: Arial, sans-serif;
+      color: #222;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: #fff;
+      border: 1px solid #ddd;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    h4 {
+      text-align: center;
+      color: #555;
+      margin-top: 0;
+    }
+
+    form {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    input[type="file"] {
+      padding: 6px;
+      margin-top: 10px;
+    }
+
+    input[type="submit"] {
+      margin-top: 15px;
+      padding: 8px 16px;
+      background-color: #2a9df4;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+
+    .diagnosis-section {
+      margin-top: 30px;
+      padding: 10px;
+      background-color: #eef;
+      border: 1px solid #ccd;
+    }
+
+    .diagnosis-section h3 {
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+
+    .diagnosis-image {
+      display: block;
+      margin: 10px auto;
+      max-width: 300px;
+      height: auto;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 13px;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Corn Disease Prediction</h2>
+    
+    <h4>Select a corn leaf image to diagnose</h4>
+
+    <form method="post" action="/" enctype="multipart/form-data">
+      <input type="file" name="file" required><br>
+      <input type="submit" value="Submit">
+    </form>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="diagnosis-section">
+          <h3>Diagnosis & Recommendation</h3>
+          <p>{{ messages[0] }}</p>
+          <img src="{{ messages[1] }}" alt="Uploaded Image" class="diagnosis-image">
+        </div>
+      {% endif %}
+    {% endwith %}
+  </div>
+
+</body>
+</html>
