@@ -23,17 +23,18 @@ le.inverse_transform([2])
 def getPrediction(filename):
     SIZE = 128 
     img_path = os.path.join("static", filename)
-    img = np.asarray(Image.open(img_path).resize((SIZE, SIZE)))
-    img = img / 255.0
-    img = np.expand_dims(img, axis=0)
 
-    pred = my_model.predict(img)
-    
-    print("Prediction vector (probabilities):", pred)
-    predicted_index = np.argmax(pred)
-    print("Predicted class index:", predicted_index)
+    try:
+        img = Image.open(img_path).convert("RGB").resize((SIZE, SIZE))
+        img = np.asarray(img) / 255.0
+        img = np.expand_dims(img, axis=0)
 
-    pred_class = le.inverse_transform([predicted_index])[0]
-    print("Diagnosis and recommendation:", pred_class)
-    return pred_class
+        pred = my_model.predict(img)
+        predicted_index = np.argmax(pred)
+        pred_class = le.inverse_transform([predicted_index])[0]
+        return pred_class
+
+    except Exception as e:
+        return f"Error in prediction: {str(e)}"
+
 
