@@ -39,7 +39,7 @@ def submit_file():
             flash(label)
             flash(file_path)
 
-            return redirect('/')
+            return render_template('client.html', prediction=label, image=file_path)
 
 
 if __name__ == "__main__":
