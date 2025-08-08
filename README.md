@@ -6,3 +6,8 @@ This project uses a Convolutional Neural Network (CNN) to classify corn leaf ima
 ## Live Demo
 
 
+https://github.com/user-attachments/assets/4efcd627-4e4c-4dcc-b499-4aefe9333725
+
+
+
+
