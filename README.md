@@ -5,6 +5,4 @@ This project uses a Convolutional Neural Network (CNN) to classify corn leaf ima
 
 ## Live Demo
 
-  - (https://raw.githubusercontent.com/pradeep583/Disease_prediction/main/demo/Corndiseasepredictor.mp4)
-
 
