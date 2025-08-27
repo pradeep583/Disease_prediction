@@ -23,13 +23,19 @@ le.fit(classes)
 def getPrediction(filename):
     SIZE = 128
     img_path = os.path.join("static", filename)
-    img = Image.open(img_path).resize((SIZE, SIZE))
+    img = Image.open(img_path).convert("RGB").resize((SIZE, SIZE))
     img = np.asarray(img, dtype=np.float32) / 255.0
     img = np.expand_dims(img, axis=0)
 
     interpreter.set_tensor(input_details[0]['index'], img)
     interpreter.invoke()
 
-    output_data = interpreter.get_tensor(output_details[0]['index'])
-    predicted_index = np.argmax(output_data)
+    output_data = interpreter.get_tensor(output_details[0]['index'])[0]
+    predicted_index = int(np.argmax(output_data))
+    confidence = float(output_data[predicted_index])
+
+    if confidence < 0.6:  
+        return "Invalid image — Upload a corn leaf image"
     return le.inverse_transform([predicted_index])[0]
+
+
