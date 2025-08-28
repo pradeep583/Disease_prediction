@@ -34,8 +34,9 @@ def getPrediction(filename):
     predicted_index = int(np.argmax(output_data))
     confidence = float(output_data[predicted_index])
 
-    if confidence < 0.6:  
-        return "Invalid image — Upload a corn leaf image"
+    if confidence < 0.5:  
+        return "Invalid"
     return le.inverse_transform([predicted_index])[0]
+
 
 
