@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
-  <title>Corn Leaf Disease Detector</title>
+  <title>Corn Disease Prediction</title>
   <style>
     body {
       background-color: #f7f7f7;
@@ -19,13 +18,12 @@
       padding: 20px;
       background-color: #fff;
       border: 1px solid #ddd;
-      border-radius: 8px;
     }
 
     h2 {
       text-align: center;
       margin-bottom: 10px;
-      color: #0077cc;
+      color: #007bff;
     }
 
     h4 {
@@ -39,9 +37,17 @@
       margin-top: 20px;
     }
 
+    .file-box {
+      display: inline-block;
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background-color: #fff;
+    }
+
     input[type="file"] {
-      padding: 6px;
-      margin-top: 10px;
+      border: none;
+      outline: none;
     }
 
     input[type="submit"] {
@@ -57,8 +63,8 @@
     .diagnosis-section {
       margin-top: 30px;
       padding: 15px;
-      background-color: #eef6ff;
-      border: 1px solid #ccd;
+      background-color: #f9fbff;
+      border-left: 5px solid #007bff; 
       border-radius: 6px;
     }
 
@@ -72,45 +78,44 @@
       margin: 10px auto;
       max-width: 300px;
       height: auto;
-      border-radius: 6px;
     }
 
-    .error-box {
-      margin-top: 20px;
-      padding: 12px;
-      border-radius: 8px;
-      background: #ffeaea;
-      color: #b30000;
+    .footer {
       text-align: center;
-      font-weight: bold;
+      margin-top: 40px;
+      font-size: 13px;
+      color: #999;
     }
   </style>
 </head>
 
 <body>
   <div class="container">
-    <h2>Corn Leaf Disease Detector</h2>
-    <h4>Upload an image of the corn leaf</h4>
+    <h2>Corn Disease Prediction</h2>
+
+    <h4>Select a corn leaf image to diagnose</h4>
 
     <form method="post" action="/" enctype="multipart/form-data">
-      <input type="file" name="file" accept=".jpg,.jpeg,.png" required><br>
-      <input type="submit" value="Predict Disease">
+      <div class="file-box">
+        <input type="file" name="file" required>
+      </div>
+      <br>
+      <input type="submit" value="Submit">
     </form>
 
     {% if error_message %}
-    <div class="error-box">
+    <div style="margin-top:20px; padding:12px; border-radius:8px; background:#ffeaea; color:#b30000; text-align:center;">
       {{ error_message }}
     </div>
     {% endif %}
 
     {% if prediction and image %}
     <div class="diagnosis-section">
-      <h3>Prediction & Treatment Advice</h3>
+      <h3>Diagnosis & Recommendation</h3>
       <p>{{ prediction }}</p>
       <img src="{{ image }}" alt="Uploaded Image" class="diagnosis-image">
     </div>
     {% endif %}
   </div>
 </body>
-
 </html>
