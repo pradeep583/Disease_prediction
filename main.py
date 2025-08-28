@@ -1,10 +1,10 @@
 import numpy as np
 from PIL import Image
 from sklearn.preprocessing import LabelEncoder
-import tflite_runtime.interpreter as tflite
+import tensorflow as tf
 import os
 
-interpreter = tflite.Interpreter(model_path="model/model.tflite")
+interpreter = tf.lite.Interpreter(model_path="model/model.tflite")
 interpreter.allocate_tensors()
 
 input_details = interpreter.get_input_details()
@@ -37,6 +37,7 @@ def getPrediction(filename):
     if confidence < 0.5:  
         return "Invalid"
     return le.inverse_transform([predicted_index])[0]
+
 
 
 
