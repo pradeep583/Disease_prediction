@@ -96,16 +96,13 @@
     </div>
     {% endif %}
 
-
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
+    {% if prediction and image %}
     <div class="diagnosis-section">
       <h3>Diagnosis & Recommendation</h3>
-      <p>{{ messages[0] }}</p>
-      <img src="{{ messages[1] }}" alt="Uploaded Image" class="diagnosis-image">
+      <p>{{ prediction }}</p>
+      <img src="{{ image }}" alt="Uploaded Image" class="diagnosis-image">
     </div>
     {% endif %}
-    {% endwith %}
   </div>
 
 </body>
