@@ -54,7 +54,8 @@ def submit_file():
         if result == "Invalid":
             return render_template('client.html', error_message="Please upload a corn leaf photo.")
         else:
-            return render_template('client.html', prediction=result, image=filename)
+            return render_template('client.html', prediction=result, image='/' + file_path)
+
 
        
 
@@ -64,5 +65,6 @@ def submit_file():
 
 if __name__ == '__main__':
     app.run()
+
 
 
