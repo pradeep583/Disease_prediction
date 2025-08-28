@@ -49,10 +49,13 @@ def submit_file():
         os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
         file.save(file_path)
 
-        label = getPrediction(filename)
+        result = getPrediction(filename)
 
-        # Pass prediction and image to template
-        return render_template('client.html', prediction=label, image=file_path)
+        if result == "Invalid":
+            return render_template('client.html', error_message="Please upload a corn leaf photo.")
+        else:
+            return render_template('client.html', prediction=result, image=file_path)
+       
 
     else:
         flash('Allowed file types are png, jpg, jpeg')
@@ -60,3 +63,4 @@ def submit_file():
 
 if __name__ == '__main__':
     app.run()
+
