@@ -1,9 +1,9 @@
 import numpy as np
 from PIL import Image
-from sklearn.preprocessing import LabelEncoder
 import tflite_runtime.interpreter as tflite
 import os
 
+# Load TFLite model
 interpreter = tflite.Interpreter(model_path="model/model.tflite")
 interpreter.allocate_tensors()
 
@@ -17,16 +17,16 @@ classes = [
     "Healthy - No treatment required"
 ]
 
-le = LabelEncoder()
-le.fit(classes)
-
 def getPrediction(filename):
     SIZE = 128
     img_path = os.path.join("static", filename)
+
+    # Consistent preprocessing (RGB + normalization)
     img = Image.open(img_path).convert("RGB").resize((SIZE, SIZE))
     img = np.asarray(img, dtype=np.float32) / 255.0
     img = np.expand_dims(img, axis=0)
 
+    # Run inference
     interpreter.set_tensor(input_details[0]['index'], img)
     interpreter.invoke()
 
@@ -34,13 +34,6 @@ def getPrediction(filename):
     predicted_index = int(np.argmax(output_data))
     confidence = float(output_data[predicted_index])
 
-    if confidence < 0.6:  
+    if confidence < 0.5:  
         return "Invalid"
-    return le.inverse_transform([predicted_index])[0]
-
-
-
-
-
-
-
+    return classes[predicted_index]
