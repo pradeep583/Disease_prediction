@@ -3,6 +3,7 @@ Werkzeug==3.0.1
 numpy==1.26.4
 Pillow==10.3.0
 scikit-learn==1.5.0
-tflite-runtime==2.14.0
+tflite-runtime==2.15.0
 gunicorn==21.2.0
+
 
