@@ -22,7 +22,7 @@ def getPrediction(filename):
     img_path = os.path.join("static", filename)
 
     # Load + resize
-    img = Image.open(img_path).resize((SIZE, SIZE))
+    img = Image.open(img_path).convert("RGB").resize((SIZE, SIZE))
 
     # Handle input dtype
     input_dtype = input_details[0]['dtype']
@@ -46,3 +46,4 @@ def getPrediction(filename):
     if confidence < 0.5:  
         return "Invalid"
     return classes[predicted_index]
+
