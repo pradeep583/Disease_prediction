@@ -21,9 +21,18 @@ def getPrediction(filename):
     SIZE = 128
     img_path = os.path.join("static", filename)
 
-    # Consistent preprocessing (RGB + normalization)
-    img = Image.open(img_path).convert("RGB").resize((SIZE, SIZE))
-    img = np.asarray(img, dtype=np.float32) / 255.0
+    # Load + resize
+    img = Image.open(img_path).resize((SIZE, SIZE))
+
+    # Handle input dtype
+    input_dtype = input_details[0]['dtype']
+    if input_dtype == np.float32:
+        img = np.asarray(img, dtype=np.float32) / 255.0
+    elif input_dtype == np.uint8:
+        img = np.asarray(img, dtype=np.uint8)
+    else:
+        raise ValueError(f"Unsupported dtype: {input_dtype}")
+
     img = np.expand_dims(img, axis=0)
 
     # Run inference
